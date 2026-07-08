@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Conectar WhatsApp - Nubecall</title>
+</head>
+<body>
+
+<button onclick="launchWhatsAppSignup()" style="padding: 12px 24px; font-size: 16px; background: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  Conectar WhatsApp
+</button>
+
+<script src="https://connect.facebook.net/es_LA/sdk.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '1455683586243581',
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v21.0'
+    });
+  };
+
+  function launchWhatsAppSignup() {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        const code = response.authResponse.code;
+        console.log('Code recibido:', code);
+        
+        // Enviamos el code a n8n para que lo procese
+        fetch('https://servern8n.fun/webhook/whatsapp-onboarding', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ code: code })
+        })
+        .then(() => alert('¡Conectado! Estamos configurando tu WhatsApp.'))
+        .catch(err => console.error('Error:', err));
+        
+      } else {
+        console.log('El usuario canceló el login o no autorizó.');
+      }
+    }, {
+      config_id: '1895061008548418',
+      response_type: 'code',
+      override_default_response_type: true,
+      extras: {
+        setup: {},
+        featureType: '',
+        sessionInfoVersion: '3'
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
