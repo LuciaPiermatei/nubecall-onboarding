@@ -313,6 +313,38 @@
     el.className = 'status' + (isError ? ' error' : '');
   }
 
+  // Guardamos acá los datos que Meta manda por postMessage durante el flujo
+  let signupData = { waba_id: null, phone_number_id: null };
+
+  window.addEventListener('message', (event) => {
+    if (!event.origin.endsWith('facebook.com')) return;
+    try {
+      const data = JSON.parse(event.data);
+      if (data.type === 'WA_EMBEDDED_SIGNUP') {
+        if (data.event === 'FINISH' && data.data) {
+          signupData.waba_id = data.data.waba_id || null;
+          signupData.phone_number_id = data.data.phone_number_id || null;
+        }
+      }
+    } catch (e) {
+      // Mensajes que no son JSON de Meta, se ignoran
+    }
+  });
+
+  function sendToBackend(code) {
+    fetch('https://servern8n.fun/webhook/whatsapp-onboarding', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        code: code,
+        waba_id: signupData.waba_id,
+        phone_number_id: signupData.phone_number_id
+      })
+    })
+    .then(() => setStatus('¡Listo! Tu WhatsApp quedó conectado a Nubecall.', false))
+    .catch(() => setStatus('Hubo un problema al finalizar la conexión. Intentá de nuevo.', true));
+  }
+
   function launchWhatsAppSignup() {
     const btn = document.getElementById('ctaBtn');
     btn.disabled = true;
@@ -322,17 +354,9 @@
       btn.disabled = false;
       if (response.authResponse) {
         const code = response.authResponse.code;
-
         setStatus('Configurando tu WhatsApp…', false);
-
-        fetch('https://servern8n.fun/webhook/whatsapp-onboarding', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ code: code })
-        })
-        .then(() => setStatus('¡Listo! Tu WhatsApp quedó conectado a Nubecall.', false))
-        .catch(() => setStatus('Hubo un problema al finalizar la conexión. Intentá de nuevo.', true));
-
+        // Pequeña espera para asegurar que el postMessage con waba_id ya llegó
+        setTimeout(() => sendToBackend(code), 800);
       } else {
         setStatus('No se completó la conexión.', true);
       }
