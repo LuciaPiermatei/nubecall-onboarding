@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Conectá tu WhatsApp — Nubecall</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230B1B33'/%3E%3Cpath d='M12.04 4.5c-4.1 0-7.4 3.32-7.4 7.4 0 1.3.34 2.56.99 3.68L4.5 19.5l4.02-1.06a7.35 7.35 0 0 0 3.52.9h.01c4.08 0 7.4-3.32 7.4-7.4s-3.32-7.44-7.41-7.44Z' fill='%2325D366'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -20,8 +21,9 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
+  html {
     height: 100%;
+    background: var(--navy-deep);
   }
 
   body {
@@ -30,9 +32,9 @@
     color: var(--cloud);
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 24px;
+    padding: 32px 24px 40px;
     overflow-x: hidden;
   }
 
@@ -48,7 +50,7 @@
     text-transform: uppercase;
     color: var(--cyan);
     font-weight: 600;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,18 +67,18 @@
   /* --- Signature element: phone connecting to cloud --- */
   .link-visual {
     position: relative;
-    height: 150px;
+    height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 56px;
+    gap: 84px;
     margin-bottom: 8px;
   }
 
   .node {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
     background: rgba(255,255,255,0.04);
     border: 1px solid var(--line);
     display: flex;
@@ -86,7 +88,7 @@
     z-index: 2;
   }
 
-  .node svg { width: 30px; height: 30px; }
+  .node svg { width: 28px; height: 28px; }
 
   .node.cloud {
     background: rgba(79, 209, 233, 0.08);
@@ -102,7 +104,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 130px;
+    width: 160px;
     height: 2px;
     transform: translate(-50%, -50%);
     background: linear-gradient(90deg, rgba(37,211,102,0.5), rgba(79,209,233,0.5));
@@ -144,17 +146,17 @@
     line-height: 1.6;
     color: var(--muted);
     max-width: 400px;
-    margin: 0 auto 36px;
+    margin: 0 auto 28px;
   }
 
   .steps {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 36px;
+    gap: 9px;
+    margin-bottom: 28px;
     text-align: left;
     border-top: 1px solid var(--line);
-    padding-top: 24px;
+    padding-top: 20px;
   }
 
   .step {
@@ -214,15 +216,8 @@
 
   .cta svg { width: 20px; height: 20px; }
 
-  .fineprint {
-    margin-top: 18px;
-    font-size: 12.5px;
-    color: var(--muted);
-    opacity: 0.75;
-  }
-
   .status {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 14px;
     min-height: 20px;
     color: var(--cyan);
@@ -231,11 +226,23 @@
   .status.error { color: #FF8A8A; }
 
   footer {
-    margin-top: 44px;
-    font-size: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .fineprint {
+    font-size: 11.5px;
     color: var(--muted);
-    opacity: 0.6;
-    letter-spacing: 0.02em;
+    opacity: 0.65;
+    line-height: 1.5;
+  }
+
+  .fineprint b {
+    color: var(--muted);
+    opacity: 0.9;
+    font-weight: 600;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -274,7 +281,7 @@
     <div class="step"><span class="dot"></span> <span><b>Iniciá sesión</b> con tu cuenta de Facebook.</span></div>
     <div class="step"><span class="dot"></span> <span><b>Elegí o creá</b> tu perfil de negocio en Meta.</span></div>
     <div class="step"><span class="dot"></span> <span><b>Verificá tu número</b> por SMS o llamada.</span></div>
-    <div class="step"><span class="dot"></span> <span>Ya tenés WhatsApp con IA, ¿ya usás la app? podés <b>mantener tu historial</b>.</span></div>
+    <div class="step"><span class="dot"></span> <span>Listo, tu <b>agente de IA queda activo</b>.</span></div>
   </div>
 
   <button class="cta" onclick="launchWhatsAppSignup()" id="ctaBtn">
@@ -284,9 +291,9 @@
 
   <div class="status" id="statusMsg"></div>
 
-  <p class="fineprint">Tus datos se comparten únicamente con Nubecall a través de la plataforma oficial de Meta.</p>
-
-  <footer>Nubecall — Telefonía en la nube + Agentes de IA</footer>
+  <footer>
+    <p class="fineprint"><b>Nubecall</b> · Tus datos se comparten únicamente con Nubecall a través de la plataforma oficial de Meta.</p>
+  </footer>
 </div>
 
 <script src="https://connect.facebook.net/es_LA/sdk.js"></script>
