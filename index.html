@@ -2,13 +2,292 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Conectar WhatsApp - Nubecall</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conectá tu WhatsApp — Nubecall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1B33;
+    --navy-deep: #071224;
+    --whatsapp: #25D366;
+    --whatsapp-dim: #1B9E4E;
+    --cyan: #4FD1E9;
+    --cloud: #F5F7FA;
+    --muted: #8FA3C4;
+    --line: rgba(143, 163, 196, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 50% 0%, #10254A 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    color: var(--cloud);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    height: 1px;
+    width: 28px;
+    background: var(--line);
+  }
+
+  /* --- Signature element: phone connecting to cloud --- */
+  .link-visual {
+    position: relative;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 56px;
+    margin-bottom: 8px;
+  }
+
+  .node {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .node svg { width: 30px; height: 30px; }
+
+  .node.cloud {
+    background: rgba(79, 209, 233, 0.08);
+    border-color: rgba(79, 209, 233, 0.35);
+  }
+
+  .node.phone {
+    background: rgba(37, 211, 102, 0.08);
+    border-color: rgba(37, 211, 102, 0.35);
+  }
+
+  .beam {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(90deg, rgba(37,211,102,0.5), rgba(79,209,233,0.5));
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .beam::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -30%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+    animation: travel 2.2s ease-in-out infinite;
+  }
+
+  @keyframes travel {
+    0%   { left: -30%; }
+    50%  { left: 100%; }
+    100% { left: 100%; }
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    color: var(--whatsapp);
+  }
+
+  p.lede {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 400px;
+    margin: 0 auto 36px;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 36px;
+    text-align: left;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .step b {
+    color: var(--cloud);
+    font-weight: 500;
+  }
+
+  .step .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .cta {
+    width: 100%;
+    padding: 17px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #062A16;
+    background: var(--whatsapp);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.22);
+  }
+
+  .cta:hover {
+    background: #2EE873;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.32);
+  }
+
+  .cta:active {
+    transform: translateY(0);
+  }
+
+  .cta:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  .cta svg { width: 20px; height: 20px; }
+
+  .fineprint {
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--muted);
+    opacity: 0.75;
+  }
+
+  .status {
+    margin-top: 20px;
+    font-size: 14px;
+    min-height: 20px;
+    color: var(--cyan);
+  }
+
+  .status.error { color: #FF8A8A; }
+
+  footer {
+    margin-top: 44px;
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0.6;
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .beam::after { animation: none; }
+  }
+</style>
 </head>
 <body>
 
-<button onclick="launchWhatsAppSignup()" style="padding: 12px 24px; font-size: 16px; background: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer;">
-  Conectar WhatsApp
-</button>
+<div class="wrap">
+
+  <div class="eyebrow">Nubecall · Onboarding</div>
+
+  <div class="link-visual">
+    <div class="node phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="1.6">
+        <rect x="7" y="2" width="10" height="20" rx="2.2"/>
+        <line x1="11" y1="18" x2="13" y2="18" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="beam"></div>
+    <div class="node cloud">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1E9" stroke-width="1.6">
+        <path d="M6.5 18a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 16.4 8.05 4.5 4.5 0 0 1 16 18H6.5Z" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <h1>Sumá tu número a la <span>nube de Nubecall</span></h1>
+  <p class="lede">
+    Conectá tu WhatsApp Business en un par de minutos y dejá que un agente de
+    inteligencia artificial se encargue de tus conversaciones.
+  </p>
+
+  <div class="steps">
+    <div class="step"><span class="dot"></span> <span><b>Iniciá sesión</b> con tu cuenta de Facebook.</span></div>
+    <div class="step"><span class="dot"></span> <span><b>Elegí o creá</b> tu perfil de negocio en Meta.</span></div>
+    <div class="step"><span class="dot"></span> <span><b>Verificá tu número</b> por SMS o llamada.</span></div>
+    <div class="step"><span class="dot"></span> <span>Ya tenés WhatsApp con IA, ¿ya usás la app? podés <b>mantener tu historial</b>.</span></div>
+  </div>
+
+  <button class="cta" onclick="launchWhatsAppSignup()" id="ctaBtn">
+    <svg viewBox="0 0 24 24" fill="#062A16"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Z"/></svg>
+    Conectar WhatsApp
+  </button>
+
+  <div class="status" id="statusMsg"></div>
+
+  <p class="fineprint">Tus datos se comparten únicamente con Nubecall a través de la plataforma oficial de Meta.</p>
+
+  <footer>Nubecall — Telefonía en la nube + Agentes de IA</footer>
+</div>
 
 <script src="https://connect.facebook.net/es_LA/sdk.js"></script>
 <script>
@@ -21,23 +300,34 @@
     });
   };
 
+  function setStatus(msg, isError) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.className = 'status' + (isError ? ' error' : '');
+  }
+
   function launchWhatsAppSignup() {
+    const btn = document.getElementById('ctaBtn');
+    btn.disabled = true;
+    setStatus('Abriendo conexión con Meta…', false);
+
     FB.login(function(response) {
+      btn.disabled = false;
       if (response.authResponse) {
         const code = response.authResponse.code;
-        console.log('Code recibido:', code);
-        
-        // Enviamos el code a n8n para que lo procese
+
+        setStatus('Configurando tu WhatsApp…', false);
+
         fetch('https://servern8n.fun/webhook/whatsapp-onboarding', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ code: code })
         })
-        .then(() => alert('¡Conectado! Estamos configurando tu WhatsApp.'))
-        .catch(err => console.error('Error:', err));
-        
+        .then(() => setStatus('¡Listo! Tu WhatsApp quedó conectado a Nubecall.', false))
+        .catch(() => setStatus('Hubo un problema al finalizar la conexión. Intentá de nuevo.', true));
+
       } else {
-        console.log('El usuario canceló el login o no autorizó.');
+        setStatus('No se completó la conexión.', true);
       }
     }, {
       config_id: '1895061008548418',
